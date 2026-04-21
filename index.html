@@ -547,6 +547,98 @@
     }
     .lightbox-close:hover { color: var(--white); }
 
+    /* ── PHOTO PROTECTION ── */
+    .photo-card img, .photo-placeholder {
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
+    }
+    .photo-card { pointer-events: all; }
+
+    /* Copyright watermark - shows faintly on hover */
+    .photo-card::after {
+      content: '© aalhasan26';
+      position: absolute;
+      bottom: 10px;
+      right: 12px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0);
+      z-index: 10;
+      transition: color 0.3s;
+      pointer-events: none;
+    }
+    .photo-card:hover::after {
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* ── CONTACT FORM ── */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 320px;
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-field label {
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+    .form-field input,
+    .form-field textarea {
+      background: none;
+      border: none;
+      border-bottom: 1px solid var(--light-grey);
+      padding: 8px 0;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--black);
+      outline: none;
+      transition: border-color 0.2s;
+      resize: none;
+      width: 100%;
+    }
+    .form-field input:focus,
+    .form-field textarea:focus {
+      border-color: var(--black);
+    }
+    .form-field input::placeholder,
+    .form-field textarea::placeholder {
+      color: var(--light-grey);
+    }
+    .form-submit {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 14px 36px;
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: background 0.25s;
+      align-self: flex-start;
+    }
+    .form-submit:hover { background: var(--grey); }
+    .form-success {
+      display: none;
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-style: italic;
+      color: var(--grey);
+      padding: 16px 0;
+    }
+
     /* ── ANIMATIONS ── */
     @keyframes fadeUp {
       to { opacity: 1; transform: translateY(0); }
@@ -794,9 +886,23 @@
     <h2 class="contact-heading">Let's<br><em>work</em><br>together.</h2>
   </div>
   <div class="contact-right">
-    <a href="mailto:hello@aalhasan26.com" class="contact-link">hello@aalhasan26.com</a>
     <a href="https://instagram.com/aalhasan26" target="_blank" class="contact-link">@aalhasan26</a>
-    <a href="mailto:hello@aalhasan26.com" class="cta-btn">Start a conversation</a>
+    <form class="contact-form" id="contactForm" onsubmit="submitForm(event)">
+      <div class="form-field">
+        <label>Your name</label>
+        <input type="text" placeholder="Abdullah" required autocomplete="off" />
+      </div>
+      <div class="form-field">
+        <label>Your email</label>
+        <input type="email" placeholder="you@email.com" required autocomplete="off" />
+      </div>
+      <div class="form-field">
+        <label>Message</label>
+        <textarea rows="3" placeholder="Tell me about your project..." required></textarea>
+      </div>
+      <button type="submit" class="form-submit">Send message</button>
+    </form>
+    <p class="form-success" id="formSuccess">Thank you — I'll be in touch soon.</p>
   </div>
 </section>
 
@@ -872,6 +978,44 @@
     }
   }
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox({target: document.getElementById('lightbox')}); });
+
+  // ── PHOTO PROTECTION ──
+  document.querySelectorAll('.photo-card').forEach(el => {
+    el.addEventListener('contextmenu', e => e.preventDefault());
+  });
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('dragstart', e => e.preventDefault());
+  });
+
+  // ── CONTACT FORM ──
+  // Uses Formspree — sign up free at formspree.io, create a form, paste your ID below
+  // Until then, the fallback opens your mail client instead
+  function submitForm(e) {
+    e.preventDefault();
+    const form = document.getElementById('contactForm');
+    const data = new FormData(form);
+    const FORMSPREE_ID = 'YOUR_FORM_ID'; // <-- replace this after signing up at formspree.io
+
+    if (FORMSPREE_ID === 'YOUR_FORM_ID') {
+      // Fallback: open mail client
+      const name = form.querySelector('input[type=text]').value;
+      const email = form.querySelector('input[type=email]').value;
+      const msg = form.querySelector('textarea').value;
+      window.location.href = `mailto:hello@aalhasan26.com?subject=Message from ${encodeURIComponent(name)}&body=${encodeURIComponent(msg + '\n\nReply to: ' + email)}`;
+      return;
+    }
+
+    fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    }).then(res => {
+      if (res.ok) {
+        form.style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+      }
+    });
+  }
 </script>
 </body>
 </html>
