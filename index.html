@@ -668,9 +668,8 @@
       .filter-section { padding: 48px 24px 24px; flex-wrap: wrap; gap: 12px; }
       .gallery-section { padding: 32px 24px 64px; }
       .gallery-grid { grid-template-columns: 1fr 1fr; gap: 2px; }
-      .photo-card:nth-child(1),
-      .photo-card:nth-child(5),
-      .photo-card:nth-child(6) { grid-column: span 2; }
+      .photo-card.h-card { grid-column: span 2; }
+      .photo-card { aspect-ratio: 3/4; }
       .about-section { grid-template-columns: 1fr; gap: 48px; padding: 64px 24px; }
       .contact-section { flex-direction: column; align-items: flex-start; gap: 48px; padding: 64px 24px; }
       .contact-right { align-items: flex-start; }
@@ -692,7 +691,7 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg"><img src="hero.jpeg" alt="hero" style="width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.5;display:block;" draggable="false" oncontextmenu="return false"></div>
+  <div class="hero-bg"><img src="photos/hero.jpeg" alt="hero" style="width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.5;display:block;" draggable="false" oncontextmenu="return false"></div>
   <div class="hero-content">
     <p class="hero-eyebrow">Photography Portfolio</p>
     <h1 class="hero-title">Light,<br><em>Frames,</em><br>Stories.</h1>
@@ -723,128 +722,62 @@
 <section class="gallery-section">
   <div class="gallery-grid" id="galleryGrid">
 
-    <div class="photo-card reveal" data-cat="landscape" onclick="openLightbox('Golden Hour', 'Landscape')">
-      <img src="Photos/landscape-1.JPG" alt="Landscape" style="width:100%;height:100%;object-fit:cover;" draggable="false" oncontextmenu="return false">
-      <div class="photo-overlay">
-        <div class="photo-meta">
-          <p class="photo-category">Landscape</p>
-          <p class="photo-title">Golden Hour</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="photo-card reveal" data-cat="portrait" onclick="openLightbox('Untitled 01', 'Portrait')">
-      <img src="Photos/portrait-1.JPG" alt="Portrait" style="width:100%;height:100%;object-fit:cover;" draggable="false" oncontextmenu="return false">
-      <div class="photo-overlay">
-        <div class="photo-meta">
-          <p class="photo-category">Portrait</p>
-          <p class="photo-title">Untitled 01</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="photo-card reveal" data-cat="street" onclick="openLightbox('City Pulse', 'Street')">
-      <img src="Photos/street-1.JPG" alt="Street" style="width:100%;height:100%;object-fit:cover;" draggable="false" oncontextmenu="return false">
-      <div class="photo-overlay">
-        <div class="photo-meta">
-          <p class="photo-category">Street</p>
-          <p class="photo-title">City Pulse</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="photo-card reveal" data-cat="portrait" onclick="openLightbox('Quiet Gaze', 'Portrait')">
-      <div class="photo-placeholder">
-        <svg class="ph-icon" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="12" r="6" stroke="#0e0e0d" stroke-width="1"/><path d="M4 32c0-7.732 6.268-14 14-14s14 6.268 14 14" stroke="#0e0e0d" stroke-width="1"/></svg>
-        <span class="ph-label">Portrait</span>
-      </div>
-      <div class="photo-overlay">
-        <div class="photo-meta">
-          <p class="photo-category">Portrait</p>
-          <p class="photo-title">Quiet Gaze</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="photo-card reveal" data-cat="landscape" onclick="openLightbox('Open Roads', 'Landscape')">
-      <div class="photo-placeholder">
-        <svg class="ph-icon" viewBox="0 0 36 36" fill="none"><path d="M2 26l10-12 8 8 5-6 9 10H2z" stroke="#0e0e0d" stroke-width="1"/><circle cx="28" cy="10" r="4" stroke="#0e0e0d" stroke-width="1"/></svg>
-        <span class="ph-label">Landscape</span>
-      </div>
-      <div class="photo-overlay">
-        <div class="photo-meta">
-          <p class="photo-category">Landscape</p>
-          <p class="photo-title">Open Roads</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="photo-card reveal" data-cat="street" onclick="openLightbox('In Between', 'Street')">
-      <div class="photo-placeholder">
-        <svg class="ph-icon" viewBox="0 0 36 36" fill="none"><rect x="4" y="8" width="28" height="20" rx="1" stroke="#0e0e0d" stroke-width="1"/><circle cx="18" cy="18" r="5" stroke="#0e0e0d" stroke-width="1"/></svg>
-        <span class="ph-label">Street</span>
-      </div>
-      <div class="photo-overlay">
-        <div class="photo-meta">
-          <p class="photo-category">Street</p>
-          <p class="photo-title">In Between</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="photo-card reveal" data-cat="portrait" onclick="openLightbox('Soft Light', 'Portrait')">
-      <div class="photo-placeholder">
-        <svg class="ph-icon" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="12" r="6" stroke="#0e0e0d" stroke-width="1"/><path d="M4 32c0-7.732 6.268-14 14-14s14 6.268 14 14" stroke="#0e0e0d" stroke-width="1"/></svg>
-        <span class="ph-label">Portrait</span>
-      </div>
-      <div class="photo-overlay">
-        <div class="photo-meta">
-          <p class="photo-category">Portrait</p>
-          <p class="photo-title">Soft Light</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="photo-card reveal" data-cat="landscape" onclick="openLightbox('Horizon', 'Landscape')">
-      <div class="photo-placeholder">
-        <svg class="ph-icon" viewBox="0 0 36 36" fill="none"><path d="M2 26l10-12 8 8 5-6 9 10H2z" stroke="#0e0e0d" stroke-width="1"/><circle cx="28" cy="10" r="4" stroke="#0e0e0d" stroke-width="1"/></svg>
-        <span class="ph-label">Landscape</span>
-      </div>
-      <div class="photo-overlay">
-        <div class="photo-meta">
-          <p class="photo-category">Landscape</p>
-          <p class="photo-title">Horizon</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="photo-card reveal" data-cat="street" onclick="openLightbox('Side Street', 'Street')">
-      <div class="photo-placeholder">
-        <svg class="ph-icon" viewBox="0 0 36 36" fill="none"><rect x="4" y="8" width="28" height="20" rx="1" stroke="#0e0e0d" stroke-width="1"/><circle cx="18" cy="18" r="5" stroke="#0e0e0d" stroke-width="1"/></svg>
-        <span class="ph-label">Street</span>
-      </div>
-      <div class="photo-overlay">
-        <div class="photo-meta">
-          <p class="photo-category">Street</p>
-          <p class="photo-title">Side Street</p>
-        </div>
-      </div>
+    <div class="photo-card h-card reveal" data-cat="landscape" onclick="openLightbox('Open Horizon', 'Landscape')">
+      <img src="photos/h-l-1.JPG" alt="Landscape" style="width:100%;height:100%;object-fit:cover;" draggable="false" oncontextmenu="return false">
+      <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Landscape</p><p class="photo-title">Open Horizon</p></div></div>
     </div>
 
     <div class="photo-card reveal" data-cat="portrait" onclick="openLightbox('Still', 'Portrait')">
-      <div class="photo-placeholder">
-        <svg class="ph-icon" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="12" r="6" stroke="#0e0e0d" stroke-width="1"/><path d="M4 32c0-7.732 6.268-14 14-14s14 6.268 14 14" stroke="#0e0e0d" stroke-width="1"/></svg>
-        <span class="ph-label">Portrait</span>
-      </div>
-      <div class="photo-overlay">
-        <div class="photo-meta">
-          <p class="photo-category">Portrait</p>
-          <p class="photo-title">Still</p>
-        </div>
-      </div>
+      <img src="photos/v-p-1.JPG" alt="Portrait" style="width:100%;height:100%;object-fit:cover;object-position:center top;" draggable="false" oncontextmenu="return false">
+      <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Portrait</p><p class="photo-title">Still</p></div></div>
     </div>
 
-  </div>
+    <div class="photo-card reveal" data-cat="landscape" onclick="openLightbox('Golden Hour', 'Landscape')">
+      <img src="photos/v-l-1.JPG" alt="Landscape" style="width:100%;height:100%;object-fit:cover;" draggable="false" oncontextmenu="return false">
+      <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Landscape</p><p class="photo-title">Golden Hour</p></div></div>
+    </div>
+
+    <div class="photo-card reveal" data-cat="street" onclick="openLightbox('After Hours', 'Street')">
+      <img src="photos/v-s-1.JPG" alt="Street" style="width:100%;height:100%;object-fit:cover;" draggable="false" oncontextmenu="return false">
+      <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Street</p><p class="photo-title">After Hours</p></div></div>
+    </div>
+
+    <div class="photo-card reveal" data-cat="landscape" onclick="openLightbox('Rolling Hills', 'Landscape')">
+      <img src="photos/v-l-2.JPG" alt="Landscape" style="width:100%;height:100%;object-fit:cover;" draggable="false" oncontextmenu="return false">
+      <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Landscape</p><p class="photo-title">Rolling Hills</p></div></div>
+    </div>
+
+    <div class="photo-card h-card reveal" data-cat="landscape" onclick="openLightbox('Last Light', 'Landscape')">
+      <img src="photos/h-l-2.JPG" alt="Landscape" style="width:100%;height:100%;object-fit:cover;" draggable="false" oncontextmenu="return false">
+      <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Landscape</p><p class="photo-title">Last Light</p></div></div>
+    </div>
+
+    <div class="photo-card reveal" data-cat="street" onclick="openLightbox('City Walls', 'Street')">
+      <img src="photos/v-s-3.JPG" alt="Street" style="width:100%;height:100%;object-fit:cover;" draggable="false" oncontextmenu="return false">
+      <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Street</p><p class="photo-title">City Walls</p></div></div>
+    </div>
+
+    <div class="photo-card reveal" data-cat="portrait" onclick="openLightbox('Solitude', 'Portrait')">
+      <img src="photos/v-p-2.JPG" alt="Portrait" style="width:100%;height:100%;object-fit:cover;object-position:center top;" draggable="false" oncontextmenu="return false">
+      <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Portrait</p><p class="photo-title">Solitude</p></div></div>
+    </div>
+
+    <div class="photo-card h-card reveal" data-cat="street" onclick="openLightbox('In Motion', 'Street')">
+      <img src="photos/h-s-1.JPG" alt="Street" style="width:100%;height:100%;object-fit:cover;" draggable="false" oncontextmenu="return false">
+      <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Street</p><p class="photo-title">In Motion</p></div></div>
+    </div>
+
+    <div class="photo-card reveal" data-cat="landscape" onclick="openLightbox('Vast', 'Landscape')">
+      <img src="photos/v-l-3.JPG" alt="Landscape" style="width:100%;height:100%;object-fit:cover;" draggable="false" oncontextmenu="return false">
+      <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Landscape</p><p class="photo-title">Vast</p></div></div>
+    </div>
+
+    <div class="photo-card reveal" data-cat="street" onclick="openLightbox('Side Street', 'Street')">
+      <img src="photos/v-s-2.JPG" alt="Street" style="width:100%;height:100%;object-fit:cover;" draggable="false" oncontextmenu="return false">
+      <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Street</p><p class="photo-title">Side Street</p></div></div>
+    </div>
+
+    </div>
 </section>
 
 <!-- ABOUT -->
