@@ -921,15 +921,11 @@
   function submitForm(e) {
     e.preventDefault();
     const form = document.getElementById('contactForm');
-    const FORMSPREE_ID = 'mwvaryny';
-    if (FORMSPREE_ID === 'YOUR_FORM_ID') {
-      const name = form.querySelector('input[type=text]').value;
-      const email = form.querySelector('input[type=email]').value;
-      const msg = form.querySelector('textarea').value;
-      window.location.href = `mailto:hello@aalhasan26.com?subject=Message from ${encodeURIComponent(name)}&body=${encodeURIComponent(msg + '\n\nReply to: ' + email)}`;
-      return;
-    }
-    fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+    const btn = form.querySelector('.form-submit');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+
+    fetch('https://formspree.io/f/mwvaryny', {
       method: 'POST',
       body: new FormData(form),
       headers: { 'Accept': 'application/json' }
@@ -937,7 +933,15 @@
       if (res.ok) {
         form.style.display = 'none';
         document.getElementById('formSuccess').style.display = 'block';
+      } else {
+        btn.textContent = 'Send message';
+        btn.disabled = false;
+        alert('Something went wrong. Please try again.');
       }
+    }).catch(() => {
+      btn.textContent = 'Send message';
+      btn.disabled = false;
+      alert('Something went wrong. Please try again.');
     });
   }
 </script>
