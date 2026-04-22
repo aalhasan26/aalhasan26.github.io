@@ -50,14 +50,28 @@
     }
 
     .nav-logo {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .nav-name {
       font-family: var(--font-display);
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 300;
       letter-spacing: 0.12em;
       text-transform: lowercase;
       color: var(--black);
-      text-decoration: none;
+      line-height: 1;
     }
+    .nav-subtitle {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--grey);
+      line-height: 1;
+    }
+
 
     .nav-links {
       display: flex;
@@ -681,7 +695,7 @@
 
 <!-- NAV -->
 <nav id="nav">
-  <a class="nav-logo" href="#">Abdullah Alhasan</a>
+  <a class="nav-logo" href="#"><span class="nav-name">Abdullah Alhasan</span><span class="nav-subtitle">Photographer</span></a>
   <ul class="nav-links">
     <li><a href="#" onclick="filterPhotos('all')" class="active" id="nav-all">Work</a></li>
     <li><a href="#about">About</a></li>
@@ -691,9 +705,9 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg"><img src="photos/hero.jpeg" alt="hero" style="width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.5;display:block;" draggable="false" oncontextmenu="return false"></div>
+  <div class="hero-bg" style="background:#0e0e0d;"><img src="photos/hero.jpeg" alt="hero" style="width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.45;display:block;" draggable="false" oncontextmenu="return false"></div>
   <div class="hero-content">
-    <p class="hero-eyebrow">Photography Portfolio</p>
+    <p class="hero-eyebrow">Photography · Based in Kuwait</p>
     <h1 class="hero-title">Light,<br><em>Frames,</em><br>Stories.</h1>
     <div class="hero-meta">
       <span><strong>Portraits</strong>People</span>
@@ -722,57 +736,57 @@
 <section class="gallery-section">
   <div class="gallery-grid" id="galleryGrid">
 
-    <div class="photo-card h-card reveal" data-cat="landscape" onclick="openLightbox('Open Horizon', 'Landscape')">
+    <div class="photo-card h-card reveal" data-cat="landscape" onclick="openLightbox('Open Horizon', 'Landscape', 'photos/h-l-1.jpeg')">
       <img src="photos/h-l-1.jpeg" alt="Landscape" style="width:100%;height:100%;object-fit:cover;" draggable="false" oncontextmenu="return false">
       <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Landscape</p><p class="photo-title">Open Horizon</p></div></div>
     </div>
 
-    <div class="photo-card reveal" data-cat="portrait" onclick="openLightbox('Still', 'Portrait')">
+    <div class="photo-card reveal" data-cat="portrait" onclick="openLightbox('Still', 'Portrait', 'photos/v-p-1.jpeg')">
       <img src="photos/v-p-1.jpeg" alt="Portrait" style="width:100%;height:100%;object-fit:cover;object-position:center top;" draggable="false" oncontextmenu="return false">
       <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Portrait</p><p class="photo-title">Still</p></div></div>
     </div>
 
-    <div class="photo-card reveal" data-cat="landscape" onclick="openLightbox('Golden Hour', 'Landscape')">
+    <div class="photo-card reveal" data-cat="landscape" onclick="openLightbox('Golden Hour', 'Landscape', 'photos/v-l-1.jpeg')">
       <img src="photos/v-l-1.jpeg" alt="Landscape" style="width:100%;height:100%;object-fit:cover;" draggable="false" oncontextmenu="return false">
       <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Landscape</p><p class="photo-title">Golden Hour</p></div></div>
     </div>
 
-    <div class="photo-card reveal" data-cat="street" onclick="openLightbox('After Hours', 'Street')">
+    <div class="photo-card reveal" data-cat="street" onclick="openLightbox('After Hours', 'Street', 'photos/v-s-1.jpeg')">
       <img src="photos/v-s-1.jpeg" alt="Street" style="width:100%;height:100%;object-fit:cover;" draggable="false" oncontextmenu="return false">
       <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Street</p><p class="photo-title">After Hours</p></div></div>
     </div>
 
-    <div class="photo-card reveal" data-cat="landscape" onclick="openLightbox('Rolling Hills', 'Landscape')">
+    <div class="photo-card reveal" data-cat="landscape" onclick="openLightbox('Rolling Hills', 'Landscape', 'photos/v-l-2.jpeg')">
       <img src="photos/v-l-2.jpeg" alt="Landscape" style="width:100%;height:100%;object-fit:cover;" draggable="false" oncontextmenu="return false">
       <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Landscape</p><p class="photo-title">Rolling Hills</p></div></div>
     </div>
 
-    <div class="photo-card h-card reveal" data-cat="landscape" onclick="openLightbox('Last Light', 'Landscape')">
+    <div class="photo-card h-card reveal" data-cat="landscape" onclick="openLightbox('Last Light', 'Landscape', 'photos/h-l-2.jpeg')">
       <img src="photos/h-l-2.jpeg" alt="Landscape" style="width:100%;height:100%;object-fit:cover;" draggable="false" oncontextmenu="return false">
       <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Landscape</p><p class="photo-title">Last Light</p></div></div>
     </div>
 
-    <div class="photo-card reveal" data-cat="street" onclick="openLightbox('City Walls', 'Street')">
+    <div class="photo-card reveal" data-cat="street" onclick="openLightbox('City Walls', 'Street', 'photos/v-s-3.jpeg')">
       <img src="photos/v-s-3.jpeg" alt="Street" style="width:100%;height:100%;object-fit:cover;" draggable="false" oncontextmenu="return false">
       <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Street</p><p class="photo-title">City Walls</p></div></div>
     </div>
 
-    <div class="photo-card reveal" data-cat="portrait" onclick="openLightbox('Solitude', 'Portrait')">
+    <div class="photo-card reveal" data-cat="portrait" onclick="openLightbox('Solitude', 'Portrait', 'photos/v-p-2.jpeg')">
       <img src="photos/v-p-2.jpeg" alt="Portrait" style="width:100%;height:100%;object-fit:cover;object-position:center top;" draggable="false" oncontextmenu="return false">
       <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Portrait</p><p class="photo-title">Solitude</p></div></div>
     </div>
 
-    <div class="photo-card h-card reveal" data-cat="street" onclick="openLightbox('In Motion', 'Street')">
+    <div class="photo-card h-card reveal" data-cat="street" onclick="openLightbox('In Motion', 'Street', 'photos/h-s-1.jpeg')">
       <img src="photos/h-s-1.jpeg" alt="Street" style="width:100%;height:100%;object-fit:cover;" draggable="false" oncontextmenu="return false">
       <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Street</p><p class="photo-title">In Motion</p></div></div>
     </div>
 
-    <div class="photo-card reveal" data-cat="landscape" onclick="openLightbox('Vast', 'Landscape')">
+    <div class="photo-card reveal" data-cat="landscape" onclick="openLightbox('Vast', 'Landscape', 'photos/v-l-3.jpeg')">
       <img src="photos/v-l-3.jpeg" alt="Landscape" style="width:100%;height:100%;object-fit:cover;" draggable="false" oncontextmenu="return false">
       <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Landscape</p><p class="photo-title">Vast</p></div></div>
     </div>
 
-    <div class="photo-card reveal" data-cat="street" onclick="openLightbox('Side Street', 'Street')">
+    <div class="photo-card reveal" data-cat="street" onclick="openLightbox('Side Street', 'Street', 'photos/v-s-2.jpeg')">
       <img src="photos/v-s-2.jpeg" alt="Street" style="width:100%;height:100%;object-fit:cover;" draggable="false" oncontextmenu="return false">
       <div class="photo-overlay"><div class="photo-meta"><p class="photo-category">Street</p><p class="photo-title">Side Street</p></div></div>
     </div>
@@ -842,7 +856,8 @@
 <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
   <button class="lightbox-close" onclick="closeLightbox()">Close ✕</button>
   <div class="lightbox-inner">
-    <div class="lightbox-placeholder">
+    <img id="lightbox-img" src="" alt="" style="max-width:85vw;max-height:80vh;object-fit:contain;display:none;" draggable="false" oncontextmenu="return false">
+    <div id="lightbox-placeholder-box" class="lightbox-placeholder">
       <svg width="40" height="40" viewBox="0 0 36 36" fill="none"><rect x="4" y="8" width="28" height="20" rx="1" stroke="rgba(255,255,255,0.2)" stroke-width="1"/><circle cx="18" cy="18" r="5" stroke="rgba(255,255,255,0.2)" stroke-width="1"/></svg>
       <span id="lightbox-cat">Category</span>
     </div>
@@ -886,9 +901,18 @@
   }
 
   // Lightbox
-  function openLightbox(title, cat) {
+  function openLightbox(title, cat, src) {
     document.getElementById('lightbox-title').textContent = title;
     document.getElementById('lightbox-cat').textContent = cat;
+    const img = document.getElementById('lightbox-img');
+    if (src) {
+      img.src = src;
+      img.style.display = 'block';
+      document.getElementById('lightbox-placeholder-box').style.display = 'none';
+    } else {
+      img.style.display = 'none';
+      document.getElementById('lightbox-placeholder-box').style.display = 'flex';
+    }
     document.getElementById('lightbox').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
