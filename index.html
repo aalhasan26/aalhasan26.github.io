@@ -39,14 +39,14 @@
       justify-content: space-between;
       align-items: center;
       padding: 28px 48px;
-      background: var(--white);
+      background: var(--black);
       border-bottom: 1px solid transparent;
       transition: border-color 0.3s, backdrop-filter 0.3s;
     }
     nav.scrolled {
-      border-color: var(--light-grey);
+      border-color: rgba(255,255,255,0.1);
       backdrop-filter: blur(12px);
-      background: rgba(250,250,248,0.88);
+      background: rgba(14,14,13,0.92);
     }
 
     .nav-logo { text-decoration: none; 
@@ -60,7 +60,7 @@
       font-weight: 300;
       letter-spacing: 0.12em;
       text-transform: lowercase;
-      color: var(--black);
+      color: var(--white);
       line-height: 1;
     }
     .nav-subtitle {
@@ -82,12 +82,12 @@
       font-size: 11px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--grey);
+      color: rgba(255,255,255,0.5);
       text-decoration: none;
       transition: color 0.2s;
       cursor: pointer;
     }
-    .nav-links a:hover, .nav-links a.active { color: var(--black); }
+    .nav-links a:hover, .nav-links a.active { color: var(--white); }
 
     /* ── HERO ── */
     .hero {
@@ -708,7 +708,6 @@
   <div class="hero-bg" style="background:#0e0e0d;"><img src="photos/hero.jpeg" alt="hero" style="width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.7;display:block;" draggable="false" oncontextmenu="return false"></div>
   <div class="hero-content">
     <p class="hero-eyebrow">Photography · Based in Kuwait</p>
-    <h1 class="hero-title">Light,<br><em>Frames,</em><br>Stories.</h1>
     <div class="hero-meta">
       <span><strong>Portraits</strong>People</span>
       <span><strong>Landscapes</strong>Travel</span>
