@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Abdullah Alhasan — Photography</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --white: #fafaf8;
+      --black: #0e0e0d;
+      --grey: #6a6a66;
+      --light-grey: #e2e2de;
+      --font-display: 'Cormorant Garamond', serif;
+      --font-mono: 'Geist Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: var(--font-mono);
+      font-weight: 300;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 48px;
+      background: var(--black);
+      transition: background 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(14,14,13,0.96);
+      backdrop-filter: blur(16px);
+    }
+    .nav-ar {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.6);
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 300;
+      letter-spacing: 0.14em;
+      text-transform: lowercase;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--white); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--black);
+    }
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1.4s ease;
+    }
+    .hero-slide.active { opacity: 1; }
+    .hero-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.05);
+      transition: transform 9s ease;
+      -webkit-user-drag: none;
+      user-select: none;
+    }
+    .hero-slide.active img { transform: scale(1); }
+    .hero-slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(14,14,13,0.15);
+    }
+    .hero-dots {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+    .hero-dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      transition: background 0.3s, transform 0.3s;
+      cursor: pointer;
+    }
+    .hero-dot.active {
+      background: var(--white);
+      transform: scale(1.5);
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px; right: 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      z-index: 10;
+      cursor: pointer;
+      opacity: 0;
+      animation: fadeIn 1s ease 2s forwards;
+    }
+    .hero-scroll span {
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      writing-mode: vertical-rl;
+    }
+    .scroll-line {
+      width: 1px; height: 48px;
+      background: rgba(255,255,255,0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    .scroll-line::after {
+      content: '';
+      position: absolute;
+      top: -100%; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(255,255,255,0.5);
+      animation: scrollAnim 2s ease-in-out infinite;
+    }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      position: sticky;
+      top: 66px;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--light-grey);
+      display: flex;
+      align-items: center;
+      padding: 0 48px;
+    }
+    .filter-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(14,14,13,0.3);
+      padding: 18px 24px;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .filter-btn:hover { color: var(--black); }
+    .filter-btn.active {
+      color: var(--black);
+      border-bottom-color: var(--black);
+    }
+
+    /* ── GALLERY ── */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--light-grey);
+      grid-auto-flow: dense;
+    }
+    .photo-card {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background: #1a1a18;
+      aspect-ratio: 3/4;
+    }
+    .photo-card.h-card {
+      grid-column: span 2;
+      aspect-ratio: 16/9;
+    }
+    .photo-card.hidden { display: none !important; }
+    .photo-card.h-card.hidden { grid-column: auto; }
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.01);
+      transition: transform 9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      -webkit-user-drag: none;
+      user-select: none;
+    }
+    .photo-card:hover img { transform: scale(1.06); }
+
+    /* ── ABOUT ── */
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 60vh;
+      border-top: 2px solid var(--light-grey);
+    }
+    .about-image {
+      overflow: hidden;
+      background: #1a1a18;
+    }
+    .about-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+    .about-content {
+      padding: 80px 72px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 32px;
+    }
+    .section-eyebrow {
+      font-size: 9px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+    .about-heading {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 3.5vw, 52px);
+      font-weight: 300;
+      line-height: 1.1;
+    }
+    .about-heading em { font-style: italic; color: var(--grey); }
+    .about-text {
+      font-size: 13px;
+      line-height: 2;
+      color: var(--grey);
+      max-width: 420px;
+    }
+    .about-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tag {
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: 1px solid var(--light-grey);
+      padding: 7px 14px;
+      color: var(--grey);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .tag:hover { border-color: var(--black); color: var(--black); }
+
+    /* ── CONTACT ── */
+    .contact {
+      padding: 120px 48px;
+      border-top: 1px solid var(--light-grey);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 96px;
+      align-items: start;
+    }
+    .contact-heading {
+      font-family: var(--font-display);
+      font-size: clamp(56px, 7vw, 96px);
+      font-weight: 300;
+      line-height: 0.92;
+      letter-spacing: -0.01em;
+    }
+    .contact-heading em { font-style: italic; color: var(--grey); }
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      padding-top: 8px;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .form-field { display: flex; flex-direction: column; gap: 8px; }
+    .form-field label {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+    .form-field input, .form-field textarea {
+      background: none;
+      border: none;
+      border-bottom: 1px solid var(--light-grey);
+      padding: 10px 0;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--black);
+      outline: none;
+      transition: border-color 0.2s;
+      resize: none;
+      width: 100%;
+    }
+    .form-field input:focus, .form-field textarea:focus { border-color: var(--black); }
+    .form-field input::placeholder, .form-field textarea::placeholder { color: var(--light-grey); }
+    .form-submit {
+      align-self: flex-start;
+      padding: 14px 40px;
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: background 0.25s;
+    }
+    .form-submit:hover { background: var(--grey); }
+    .form-success {
+      display: none;
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-style: italic;
+      color: var(--grey);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 28px 48px;
+      border-top: 1px solid var(--light-grey);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+    }
+    .ar-monogram {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: 0.1em;
+      border: 1px solid var(--light-grey);
+      padding: 5px 14px;
+      line-height: 1;
+      user-select: none;
+    }
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .footer-socials { display: flex; gap: 24px; }
+    .footer-socials a {
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--grey);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-socials a:hover { color: var(--black); }
+    .footer-copy {
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: var(--light-grey);
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(10,10,9,0.97);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .lightbox.open { opacity: 1; pointer-events: all; }
+    .lightbox-img-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100vw;
+      height: 100vh;
+      padding: 80px 100px;
+    }
+    #lightbox-img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      -webkit-user-drag: none;
+      user-select: none;
+    }
+    .lightbox-close {
+      position: fixed;
+      top: 28px; right: 48px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      cursor: pointer;
+      background: none;
+      border: none;
+      transition: color 0.2s;
+      z-index: 10;
+    }
+    .lightbox-close:hover { color: var(--white); }
+    .lightbox-arrow {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.2);
+      cursor: pointer;
+      font-size: 24px;
+      padding: 24px 20px;
+      transition: color 0.2s;
+      z-index: 10;
+      line-height: 1;
+    }
+    .lightbox-arrow:hover { color: var(--white); }
+    .lightbox-prev { left: 16px; }
+    .lightbox-next { right: 16px; }
+    .lightbox-counter {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.2);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeIn { to { opacity: 1; } }
+    @keyframes scrollAnim {
+      0%   { top: -100%; }
+      50%  { top: 0%; }
+      100% { top: 100%; }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      nav { padding: 18px 24px; flex-direction: column; gap: 4px; align-items: center; }
+      .nav-logo { text-align: center; }
+      .nav-links { display: none; }
+      .nav-ar { position: static; transform: none; font-size: 14px; letter-spacing: 0.1em; }
+      .filter-bar { padding: 0 16px; overflow-x: auto; }
+      .filter-btn { padding: 16px 16px; }
+      .gallery { grid-template-columns: 1fr 1fr; }
+      .photo-card.h-card { grid-column: span 2; }
+      .about { grid-template-columns: 1fr; }
+      .about-image { height: 65vw; }
+      .about-content { padding: 48px 24px; }
+      .contact { grid-template-columns: 1fr; gap: 48px; padding: 72px 24px; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 20px; padding: 28px 24px; text-align: center; }
+      .footer-right { flex-direction: column; gap: 16px; }
+      .lightbox-arrow { display: none; }
+      .hero-scroll { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#">Abdullah Alhasan</a>
+  <span class="nav-ar">AR</span>
+  <ul class="nav-links">
+    <li><a href="#work" class="active">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO SLIDESHOW -->
+<section class="hero">
+  <div class="hero-slide active">
+    <img src="photos/hero.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+  <div class="hero-slide">
+    <img src="photos/h-l-2.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+  <div class="hero-slide">
+    <img src="photos/v-p-1.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+  <div class="hero-slide">
+    <img src="photos/h-l-1.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+
+  <div class="hero-dots">
+    <div class="hero-dot active" onclick="goToSlide(0)"></div>
+    <div class="hero-dot" onclick="goToSlide(1)"></div>
+    <div class="hero-dot" onclick="goToSlide(2)"></div>
+    <div class="hero-dot" onclick="goToSlide(3)"></div>
+  </div>
+
+  <div class="hero-scroll" onclick="document.getElementById('work').scrollIntoView({behavior:'smooth'})">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar" id="work">
+  <button class="filter-btn active" onclick="filterPhotos('all', this)">All</button>
+  <button class="filter-btn" onclick="filterPhotos('landscape', this)">Landscapes</button>
+  <button class="filter-btn" onclick="filterPhotos('portrait', this)">Portraits</button>
+  <button class="filter-btn" onclick="filterPhotos('street', this)">Street</button>
+</div>
+
+<!-- GALLERY -->
+<div class="gallery" id="gallery">
+<!-- HERO SLIDES (replace in index.html) -->
+  <div class="hero-slide active">
+    <img src="photos/hero.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+  <div class="hero-slide">
+    <img src="photos/h-l-2.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+  <div class="hero-slide">
+    <img src="photos/v-p-1.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+  <div class="hero-slide">
+    <img src="photos/h-l-1.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+
+<!-- HERO DOTS (replace in index.html) -->
+    <div class="hero-dot active" onclick="goToSlide(0)"></div>
+    <div class="hero-dot" onclick="goToSlide(1)"></div>
+    <div class="hero-dot" onclick="goToSlide(2)"></div>
+    <div class="hero-dot" onclick="goToSlide(3)"></div>
+
+<!-- HERO SLIDES (replace in index.html) -->
+  <div class="hero-slide active">
+    <img src="photos/hero.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+  <div class="hero-slide">
+    <img src="photos/h-l-2.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+  <div class="hero-slide">
+    <img src="photos/h-s-1.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+  <div class="hero-slide">
+    <img src="photos/h-l-1.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+
+<!-- HERO DOTS (replace in index.html) -->
+    <div class="hero-dot active" onclick="goToSlide(0)"></div>
+    <div class="hero-dot" onclick="goToSlide(1)"></div>
+    <div class="hero-dot" onclick="goToSlide(2)"></div>
+    <div class="hero-dot" onclick="goToSlide(3)"></div>
+
+<!-- GALLERY START -->
+
+  <div class="photo-card h-card" data-cat="landscape" data-src="photos/h-l-1.jpeg" onclick="openLightbox(this)">
+    <img src="photos/h-l-1.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+  <div class="photo-card" data-cat="portrait" data-src="photos/v-p-1.jpeg" onclick="openLightbox(this)">
+    <img src="photos/v-p-1.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+
+  <div class="photo-card" data-cat="portrait" data-src="photos/v-p-2.jpeg" onclick="openLightbox(this)">
+    <img src="photos/v-p-2.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+  <div class="photo-card" data-cat="landscape" data-src="photos/v-l-1.jpeg" onclick="openLightbox(this)">
+    <img src="photos/v-l-1.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+  <div class="photo-card" data-cat="street" data-src="photos/v-s-1.jpeg" onclick="openLightbox(this)">
+    <img src="photos/v-s-1.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+
+  <div class="photo-card" data-cat="portrait" data-src="photos/v-p-3.jpeg" onclick="openLightbox(this)">
+    <img src="photos/v-p-3.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+  <div class="photo-card h-card" data-cat="landscape" data-src="photos/h-l-2.jpeg" onclick="openLightbox(this)">
+    <img src="photos/h-l-2.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+
+  <div class="photo-card" data-cat="portrait" data-src="photos/v-p-4.jpeg" onclick="openLightbox(this)">
+    <img src="photos/v-p-4.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+  <div class="photo-card" data-cat="portrait" data-src="photos/v-p-5.jpeg" onclick="openLightbox(this)">
+    <img src="photos/v-p-5.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+  <div class="photo-card" data-cat="landscape" data-src="photos/v-l-2.jpeg" onclick="openLightbox(this)">
+    <img src="photos/v-l-2.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+
+  <div class="photo-card h-card" data-cat="street" data-src="photos/h-s-1.jpeg" onclick="openLightbox(this)">
+    <img src="photos/h-s-1.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+  <div class="photo-card" data-cat="portrait" data-src="photos/v-p-6.jpeg" onclick="openLightbox(this)">
+    <img src="photos/v-p-6.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+
+  <div class="photo-card" data-cat="street" data-src="photos/v-s-2.jpeg" onclick="openLightbox(this)">
+    <img src="photos/v-s-2.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+  <div class="photo-card" data-cat="portrait" data-src="photos/v-p-7.jpeg" onclick="openLightbox(this)">
+    <img src="photos/v-p-7.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+  <div class="photo-card" data-cat="street" data-src="photos/v-s-3.jpeg" onclick="openLightbox(this)">
+    <img src="photos/v-s-3.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+
+  <div class="photo-card" data-cat="portrait" data-src="photos/v-p-8.jpeg" onclick="openLightbox(this)">
+    <img src="photos/v-p-8.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+  <div class="photo-card" data-cat="portrait" data-src="photos/v-p-9.jpeg" onclick="openLightbox(this)">
+    <img src="photos/v-p-9.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+  <div class="photo-card" data-cat="landscape" data-src="photos/v-l-3.jpeg" onclick="openLightbox(this)">
+    <img src="photos/v-l-3.jpeg" alt="" draggable="false" oncontextmenu="return false">
+  </div>
+
+<!-- GALLERY END -->
+
+</div>
+
+<!-- ABOUT -->
+<section class="about reveal" id="about">
+  <div class="about-image">
+    <img src="photos/v-p-1.jpeg" alt="Abdullah Alhasan" draggable="false" oncontextmenu="return false">
+  </div>
+  <div class="about-content">
+    <p class="section-eyebrow">About</p>
+    <h2 class="about-heading">Making images<br>that <em>stay with you.</em></h2>
+    <p class="about-text">Based in Kuwait, I've spent the last five years behind the lens chasing moments worth remembering. Photography for me is about preservation — saving a feeling, a place, a person exactly as they were. Every frame is a story I want to share with the world.</p>
+    <div class="about-tags">
+      <span class="tag">Portraits</span>
+      <span class="tag">Landscapes</span>
+      <span class="tag">Street</span>
+      <span class="tag">Travel</span>
+      <span class="tag">Kuwait</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact reveal" id="contact">
+  <div>
+    <p class="section-eyebrow" style="margin-bottom:28px;">Get in touch</p>
+    <h2 class="contact-heading">Let's<br><em>work</em><br>together.</h2>
+  </div>
+  <div>
+    <form class="contact-form" id="contactForm" onsubmit="submitForm(event)">
+      <div class="form-row">
+        <div class="form-field">
+          <label>Name</label>
+          <input type="text" placeholder="Your name" required autocomplete="off">
+        </div>
+        <div class="form-field">
+          <label>Email</label>
+          <input type="email" placeholder="your@email.com" required autocomplete="off">
+        </div>
+      </div>
+      <div class="form-field">
+        <label>Message</label>
+        <textarea rows="4" placeholder="Tell me about your project..." required></textarea>
+      </div>
+      <button type="submit" class="form-submit">Send message</button>
+    </form>
+    <p class="form-success" id="formSuccess">Thank you — I'll be in touch soon.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">aalhasan26</span>
+  <span class="ar-monogram">AR</span>
+  <div class="footer-right">
+    <div class="footer-socials">
+      <a href="https://instagram.com/aalhasan26" target="_blank">Instagram</a>
+      <a href="https://vsco.co/-a64" target="_blank">VSCO</a>
+    </div>
+    <span class="footer-copy">© 2026 Abdullah Alhasan</span>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">Close ✕</button>
+  <button class="lightbox-arrow lightbox-prev" onclick="navigateLightbox(-1)">←</button>
+  <div class="lightbox-img-wrap" onclick="closeLightbox()">
+    <img id="lightbox-img" src="" alt="" draggable="false" oncontextmenu="return false" onclick="event.stopPropagation()">
+  </div>
+  <button class="lightbox-arrow lightbox-next" onclick="navigateLightbox(1)">→</button>
+  <div class="lightbox-counter" id="lightbox-counter"></div>
+</div>
+
+<script>
+  // Nav scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Hero slideshow
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots = document.querySelectorAll('.hero-dot');
+
+  function goToSlide(n) {
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
+    currentSlide = (n + slides.length) % slides.length;
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+  }
+  setInterval(() => goToSlide(currentSlide + 1), 5000);
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Filter
+  function filterPhotos(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    document.querySelectorAll('.photo-card').forEach(card => {
+      const hide = cat !== 'all' && card.dataset.cat !== cat;
+      card.classList.toggle('hidden', hide);
+    });
+  }
+
+  // Lightbox
+  let visibleCards = [];
+  let lightboxIndex = 0;
+
+  function openLightbox(card) {
+    visibleCards = [...document.querySelectorAll('.photo-card:not(.hidden)')];
+    lightboxIndex = visibleCards.indexOf(card);
+    showLightboxImage();
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function showLightboxImage() {
+    document.getElementById('lightbox-img').src = visibleCards[lightboxIndex].dataset.src;
+    document.getElementById('lightbox-counter').textContent = (lightboxIndex + 1) + ' / ' + visibleCards.length;
+  }
+
+  function navigateLightbox(dir) {
+    lightboxIndex = (lightboxIndex + dir + visibleCards.length) % visibleCards.length;
+    showLightboxImage();
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', e => {
+    if (!document.getElementById('lightbox').classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') navigateLightbox(1);
+    if (e.key === 'ArrowLeft') navigateLightbox(-1);
+  });
+
+  // Right-click protection
+  document.querySelectorAll('.photo-card, .hero-slide, img').forEach(el => {
+    el.addEventListener('contextmenu', e => e.preventDefault());
+    el.addEventListener('dragstart', e => e.preventDefault());
+  });
+
+  // Contact form
+  function submitForm(e) {
+    e.preventDefault();
+    const form = document.getElementById('contactForm');
+    const FORMSPREE_ID = 'YOUR_FORM_ID';
+    if (FORMSPREE_ID === 'YOUR_FORM_ID') {
+      const name = form.querySelector('input[type=text]').value;
+      const email = form.querySelector('input[type=email]').value;
+      const msg = form.querySelector('textarea').value;
+      window.location.href = `mailto:hello@aalhasan26.com?subject=Message from ${encodeURIComponent(name)}&body=${encodeURIComponent(msg + '\n\nReply to: ' + email)}`;
+      return;
+    }
+    fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(res => {
+      if (res.ok) {
+        form.style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+      }
+    });
+  }
+</script>
+</body>
+</html>
