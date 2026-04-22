@@ -773,24 +773,53 @@
   function filterPhotos(cat, btn) {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    document.querySelectorAll('.photo-card').forEach(card => {
-      const hide = cat !== 'all' && card.dataset.cat !== cat;
-      card.classList.toggle('hidden', hide);
-      // When filtering, convert h-cards to normal cards to avoid gaps
-      if (cat !== 'all') {
-        if (!hide && card.classList.contains('h-card')) {
-          card.style.gridColumn = 'auto';
-          card.style.aspectRatio = '3/4';
+
+    const allCards = document.querySelectorAll('.photo-card');
+
+    if (cat === 'all') {
+      allCards.forEach(card => {
+        card.classList.remove('hidden');
+        // Restore original span and ratio
+        if (card.classList.contains('h-card')) {
+          card.style.gridColumn = 'span 2';
+          card.style.aspectRatio = '16/9';
         } else {
           card.style.gridColumn = '';
-          card.style.aspectRatio = '';
+          card.style.aspectRatio = '3/4';
         }
-      } else {
-        // Reset to original when showing all
-        card.style.gridColumn = '';
-        card.style.aspectRatio = '';
-      }
-    });
+      });
+    } else {
+      // Get visible cards for this category
+      const visible = [...allCards].filter(c => c.dataset.cat === cat);
+      const hidden = [...allCards].filter(c => c.dataset.cat !== cat);
+
+      hidden.forEach(c => c.classList.add('hidden'));
+
+      // Smartly assign spans: track column position
+      let col = 0; // 0-indexed, 3 columns total
+      visible.forEach(card => {
+        const isH = card.classList.contains('h-card');
+        card.classList.remove('hidden');
+
+        if (isH) {
+          // h-card needs 2 cols — check if it fits, if not push to next row
+          if (col === 2) {
+            // Only 1 col left, can't fit wide card — make it vertical
+            card.style.gridColumn = 'auto';
+            card.style.aspectRatio = '3/4';
+            col = (col + 1) % 3;
+          } else if (col === 0 || col === 1) {
+            card.style.gridColumn = 'span 2';
+            card.style.aspectRatio = '16/9';
+            col = (col + 2) % 3;
+          }
+        } else {
+          card.style.gridColumn = 'auto';
+          card.style.aspectRatio = '3/4';
+          col = (col + 1) % 3;
+        }
+      });
+    }
   }
 
   // Lightbox
